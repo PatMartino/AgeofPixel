@@ -4,43 +4,53 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    int healthPoint;
-    int attackPower;
-    string unitName;
-    bool movement = true;
-    public UnitData myUnit;
-    Transform enemy;
+    /*public int healthPoint;
+    protected int attackPower;
+    public string unitName;
+    protected bool movement = true;
+    
+    protected Transform enemy;
     public int range = 3;
-    bool isAttack = false;
-    bool isRanged;
+    protected bool isAttack = false;
+    protected bool isRanged;
     public LayerMask layerMask;
-    bool isPlayer;
+    protected bool isPlayer;
     public int unitCost;
-    public int unitRevenue;
+    public int unitRevenue;*/
+    public UnitData myUnit;
     UnitFunctions unitFunctions;
+    Unit()
+    {
 
-    void Start()
+    }
+    public Unit(string unitName, int healthPoint,int attackPower,int unitCost,int revenue)
     {
         healthPoint = myUnit.healthPoint;
+        attackPower = myUnit.attackPower;
+        unitName = myUnit.unitName;
+    }
+    void Start()
+    {
+        /*healthPoint = myUnit.healthPoint;
         attackPower = myUnit.attackPower;
         unitName = myUnit.unitName;
         isRanged = myUnit.isRanged;
         unitCost = myUnit.unitCost;
         unitRevenue = myUnit.unitReveune;
-        isPlayer = myUnit.isPlayer;
-        makeTag();
+        isPlayer = myUnit.isPlayer;*/
+        //makeTag();
     }
     void FixedUpdate()
     {
-        Movement();
+        //Movement();
     }
     void Update()
     {
-        attack();
+        //attack();
 
         
     }
-    public void Movement()
+    /*public void Movement()
     {
         if (isPlayer == true && movement)
         {
@@ -61,7 +71,7 @@ public class Unit : MonoBehaviour
         {
             tag = "Enemy";
         }
-    }
+    }*/
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
@@ -146,7 +156,7 @@ public class Unit : MonoBehaviour
             }
         }
     }*/
-    void giveDamage()
+    /*void giveDamage()
     {
         enemy.GetComponent<Unit>().healthPoint -= attackPower;
         Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
@@ -219,10 +229,7 @@ public class Unit : MonoBehaviour
                 }
 
 
-                /*movement = false;
-                            enemy = hit.transform;
-                            StartCoroutine(attackFunc());
-                            isAttack = true;*/
+                
             }
             else
             {
@@ -271,12 +278,6 @@ public class Unit : MonoBehaviour
                     StartCoroutine(attackFunc());
                     isAttack = true;
                 }
-
-
-                /*movement = false;
-                            enemy = hit.transform;
-                            StartCoroutine(attackFunc());
-                            isAttack = true;*/
             }
             else
             {
@@ -284,10 +285,7 @@ public class Unit : MonoBehaviour
             }
         }
 
-        //movement=false;
-        //enemy = bum.transform;
-        //StartCoroutine(attackFunc());
 
-    }
+    }*/
     }
 

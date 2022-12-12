@@ -18,3 +18,5 @@ MonoBehaviour:
   attackPower: 10
   isPlayer: 1
   isRanged: 0
+  unitCost: 0
+  unitReveune: 0
