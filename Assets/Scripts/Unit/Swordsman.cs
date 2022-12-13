@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Swordsman : Unit
 {
-    
-
-
-    Unit("Swordsman", 50, 25, 10, 10)
-    void Start()
+    public override void Start()
     {
+        base.Start();
         makeTag();
-        
     }
     void FixedUpdate()
     {
@@ -45,8 +41,16 @@ public class Swordsman : Unit
     }
     void giveDamage()
     {
-        enemy.GetComponent<Unit>().healthPoint -= attackPower;
-        Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
+        if (enemy == null)
+        {
+            Debug.Log(unitName+"Bum2");
+        }
+        else
+        {
+            enemy.GetComponent<Unit>().healthPoint -= attackPower;
+            Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
+        }
+        
     }
     public IEnumerator attackFunc()
     {
@@ -57,6 +61,12 @@ public class Swordsman : Unit
                 //myAnimator.Play("Attack");
                 yield return new WaitForSeconds(2f);
                 giveDamage();
+                if (enemy == null)
+                {
+                    Debug.Log(unitName + "Bum1");
+                    isAttack = false;
+                    break;
+                }
 
                 if (enemy.GetComponent<Unit>().healthPoint <= 0)
                 {
@@ -65,11 +75,11 @@ public class Swordsman : Unit
                     break;
                 }
 
+
             }
         }
 
     }
-
     void attack()
     {
 
@@ -98,11 +108,7 @@ public class Swordsman : Unit
             {
                 movement = true;
             }
-
-
         }
-        
-
         if (gameObject.tag == "Enemy" )
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0, 0), -transform.right, range);
@@ -112,6 +118,7 @@ public class Swordsman : Unit
             {
                 if (hit.collider.tag == "Player")
                 {
+                    
                     movement = false;
                     enemy = hit.transform;
                     StartCoroutine(attackFunc());
@@ -121,21 +128,11 @@ public class Swordsman : Unit
                 {
                     movement = false;
                 }
-
-
             }
-
             else
             {
                 movement = true;
             }
-
         }
-        
-
-        //movement=false;
-        //enemy = bum.transform;
-        //StartCoroutine(attackFunc());
-
     }
 }

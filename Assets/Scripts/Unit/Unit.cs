@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    /*public int healthPoint;
+    public int healthPoint;
     protected int attackPower;
     public string unitName;
     protected bool movement = true;
@@ -16,28 +16,20 @@ public class Unit : MonoBehaviour
     public LayerMask layerMask;
     protected bool isPlayer;
     public int unitCost;
-    public int unitRevenue;*/
+    public int unitRevenue;
     public UnitData myUnit;
     UnitFunctions unitFunctions;
-    Unit()
-    {
-
-    }
-    public Unit(string unitName, int healthPoint,int attackPower,int unitCost,int revenue)
+    
+  
+    public virtual void  Start()
     {
         healthPoint = myUnit.healthPoint;
-        attackPower = myUnit.attackPower;
-        unitName = myUnit.unitName;
-    }
-    void Start()
-    {
-        /*healthPoint = myUnit.healthPoint;
         attackPower = myUnit.attackPower;
         unitName = myUnit.unitName;
         isRanged = myUnit.isRanged;
         unitCost = myUnit.unitCost;
         unitRevenue = myUnit.unitReveune;
-        isPlayer = myUnit.isPlayer;*/
+        isPlayer = myUnit.isPlayer;
         //makeTag();
     }
     void FixedUpdate()
@@ -72,7 +64,7 @@ public class Unit : MonoBehaviour
             tag = "Enemy";
         }
     }*/
-    private void OnTriggerEnter2D(Collider2D collision)
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
         {
@@ -107,6 +99,7 @@ public class Unit : MonoBehaviour
             }
         }
     }
+    */
     /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
