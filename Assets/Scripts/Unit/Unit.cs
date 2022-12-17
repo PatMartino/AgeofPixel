@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public int healthPoint;
+    [HideInInspector]
+    public int healthPoint;    
+    [HideInInspector]
+    public string unitName;   
+    [HideInInspector]
+    public int range;
+    [HideInInspector]
+    public int unitCost;
+    [HideInInspector]
+    public int unitRevenue;
+
     protected int attackPower;
-    public string unitName;
     protected bool movement = true;
-    
     protected Transform enemy;
-    public int range = 3;
     protected bool isAttack = false;
-    protected bool isRanged;
     public LayerMask layerMask;
     protected bool isPlayer;
-    public int unitCost;
-    public int unitRevenue;
+    
     public UnitData myUnit;
-    UnitFunctions unitFunctions;
+
     
   
     public virtual void  Start()
@@ -26,10 +31,11 @@ public class Unit : MonoBehaviour
         healthPoint = myUnit.healthPoint;
         attackPower = myUnit.attackPower;
         unitName = myUnit.unitName;
-        isRanged = myUnit.isRanged;
+        
         unitCost = myUnit.unitCost;
         unitRevenue = myUnit.unitReveune;
         isPlayer = myUnit.isPlayer;
+        range = myUnit.range;
         //makeTag();
     }
     void FixedUpdate()

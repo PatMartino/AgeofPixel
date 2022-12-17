@@ -17,4 +17,6 @@ MonoBehaviour:
   healthPoint: 30
   attackPower: 15
   isPlayer: 1
-  isRanged: 1
+  range: 3
+  unitCost: 0
+  unitReveune: 0

@@ -10,7 +10,7 @@ public class UnitData : ScriptableObject
     public int healthPoint;
     public int attackPower;
     public bool isPlayer;
-    public bool isRanged;
+    public int range;
     public int unitCost;
     public int unitReveune;
 }
