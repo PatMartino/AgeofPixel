@@ -24,16 +24,11 @@ public class SpeelCooldown : MonoBehaviour
 
     
     void Update()
-    {
-        
+    {     
         if (_isCooldown)
         {
             ApplyCooldown();
         }
-        
-
-        Debug.Log(_cooldownTimer);
-
     }
     void ApplyCooldown()
     {
