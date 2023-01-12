@@ -6,14 +6,32 @@ namespace Background
     public class ParallaxEffect : MonoBehaviour
     {
         [SerializeField] private List<GameObject> layers;
-        private Camera _cam;
         [SerializeField] [Range(0,1)] private float parallaxMultiplierOffset = 0;
+        
+        private Camera _cam;
 
         private void Awake()
         {
             _cam = FindObjectOfType<Camera>();
         }
+
+        private void Start()
+        {
+            AddLayersToList();
+        }
+        
         void Update()
+        {
+            MoveLayers();
+        }
+
+        private void AddLayersToList()
+        {
+            foreach (Transform bgLayer in transform)
+                layers.Add(bgLayer.gameObject);
+        }
+        
+        private void MoveLayers()
         {
             for (int i = 0; i < layers.Count; i++)
             {

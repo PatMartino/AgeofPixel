@@ -1550,10 +1550,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c84513220fe445ae9241dbc6612b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layers:
-  - {fileID: 1025104272}
-  - {fileID: 509426680}
-  - {fileID: 1954045711}
-  - {fileID: 1650545424}
-  - {fileID: 848440997}
+  layers: []
   parallaxMultiplierOffset: 0
