@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -15,53 +13,48 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public int unitRevenue;
 
-    protected int attackPower;
-    protected bool movement = true;
-    protected Transform enemy;
-    protected bool isAttack = false;
+    protected int AttackPower;
+    protected bool Canmove = true;
+    protected bool Canmove2 = true;
+    protected Transform Enemy;
+    protected bool IsAttack = false;
     public LayerMask layerMask;
-    protected bool isPlayer;
+    protected bool IsPlayer;
     
     public UnitData myUnit;
-
     
-  
     public virtual void  Start()
     {
         healthPoint = myUnit.healthPoint;
-        attackPower = myUnit.attackPower;
+        AttackPower = myUnit.attackPower;
         unitName = myUnit.unitName;
         
         unitCost = myUnit.unitCost;
         unitRevenue = myUnit.unitReveune;
-        isPlayer = myUnit.isPlayer;
+        IsPlayer = myUnit.isPlayer;
         range = myUnit.range;
-        //makeTag();
+        MakeTag();
     }
-    void FixedUpdate()
+    public virtual void FixedUpdate()
     {
-        //Movement();
+        Movement();
     }
-    void Update()
-    {
-        //attack();
 
-        
-    }
-    /*public void Movement()
+    private void Movement()
     {
-        if (isPlayer == true && movement)
+        if (IsPlayer&& Canmove && Canmove2)
         {
             transform.Translate(0.02f, 0, 0);
         }
-        else if (isPlayer == false && movement)
+        else if (IsPlayer == false && Canmove && Canmove2)
         {
             transform.Translate(-0.02f, 0, 0);
         }
     }
-    void makeTag()
+
+    private void MakeTag()
     {
-        if (myUnit.isPlayer == true)
+        if (myUnit.isPlayer)
         {
             tag = "Player";
         }
@@ -69,7 +62,7 @@ public class Unit : MonoBehaviour
         {
             tag = "Enemy";
         }
-    }*/
+    }
     /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
@@ -286,5 +279,5 @@ public class Unit : MonoBehaviour
 
 
     }*/
-    }
+}
 

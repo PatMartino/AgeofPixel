@@ -6,11 +6,7 @@ public class UnitFunctions : Unit
     
    
     
-    void Start()
-    {
 
-        
-    }
     
     
 }

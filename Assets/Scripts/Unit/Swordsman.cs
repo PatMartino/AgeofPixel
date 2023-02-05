@@ -1,77 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Swordsman : Unit
 {
-    public override void Start()
+    private void Update()
     {
-        base.Start();
-        makeTag();
+        Attack();
     }
-    void FixedUpdate()
+
+    void GiveDamage()
     {
-        Movement();
-    }
-    void Update()
-    {
-        attack();
-    }
-    public void Movement()
-    {
-        if (myUnit.isPlayer == true && movement)
-        {
-            transform.Translate(0.02f, 0, 0);
-        }
-        else if (isPlayer == false && movement)
-        {
-            transform.Translate(-0.02f, 0, 0);
-        }
-    }
-    void makeTag()
-    {
-        if (myUnit.isPlayer == true)
-        {
-            tag = "Player";
-        }
-        else
-        {
-            tag = "Enemy";
-        }
-    }
-    void giveDamage()
-    {
-        if (enemy == null)
+        if (Enemy == null)
         {
             Debug.Log(unitName+"Bum2");
         }
         else
         {
-            enemy.GetComponent<Unit>().healthPoint -= attackPower;
-            Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
+            Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
+            Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
         }
         
     }
-    public IEnumerator attackFunc()
+
+    private IEnumerator AttackFunc()
     {
-        if (isAttack == false)
+        if (IsAttack == false)
         {
             while (true)
             {
                 //myAnimator.Play("Attack");
                 yield return new WaitForSeconds(2f);
-                giveDamage();
-                if (enemy == null)
+                GiveDamage();
+                if (Enemy == null)
                 {
                     Debug.Log(unitName + "Bum1");
-                    isAttack = false;
+                    IsAttack = false;
                     break;
                 }
 
-                if (enemy.GetComponent<Unit>().healthPoint <= 0)
+                if (Enemy.GetComponent<Unit>().healthPoint <= 0)
                 {
-                    Destroy(enemy.gameObject);
-                    isAttack = false;
+                    Destroy(Enemy.gameObject);
+                    IsAttack = false;
                     break;
                 }
 
@@ -80,58 +50,57 @@ public class Swordsman : Unit
         }
 
     }
-    void attack()
+
+    private void Attack()
     {
-
-
-        if (gameObject.tag == "Player" )
+        if (gameObject.CompareTag("Player") )
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(1, 0, 0), transform.right, range);
             Debug.DrawLine(transform.position + new Vector3(1, 0, 0), (transform.position + transform.right * range) + new Vector3(1, 0, 0), Color.green);
 
             if (hit.collider != null)
             {
-                if (hit.collider.tag == "Enemy")
+                if (hit.collider.CompareTag("Enemy"))
                 {
-                    movement = false;
-                    enemy = hit.transform;
-                    StartCoroutine(attackFunc());
-                    isAttack = true;
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(AttackFunc());
+                    IsAttack = true;
                 }
-                if (hit.collider.tag == "Player")
+                if (hit.collider.CompareTag("Player"))
                 {
-                    movement = false;
+                    Canmove = false;
                 }
 
             }
             else
             {
-                movement = true;
+                Canmove = true;
             }
         }
-        if (gameObject.tag == "Enemy" )
+        if (gameObject.CompareTag("Enemy") )
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0, 0), -transform.right, range);
             Debug.DrawLine(transform.position + new Vector3(-1f, 0, 0), (transform.position + -transform.right * range) + new Vector3(-1f, 0, 0), Color.green);
 
             if (hit.collider != null)
             {
-                if (hit.collider.tag == "Player")
+                if (hit.collider.CompareTag("Player"))
                 {
                     
-                    movement = false;
-                    enemy = hit.transform;
-                    StartCoroutine(attackFunc());
-                    isAttack = true;
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(AttackFunc());
+                    IsAttack = true;
                 }
-                if (hit.collider.tag == "Enemy")
+                if (hit.collider.CompareTag("Enemy"))
                 {
-                    movement = false;
+                    Canmove = false;
                 }
             }
             else
             {
-                movement = true;
+                Canmove = true;
             }
         }
     }

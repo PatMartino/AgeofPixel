@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class SpeelCooldown : MonoBehaviour
 {
-    [SerializeField]
-    private Image _imageCooldown;
-    [SerializeField]
-    private TMP_Text _textCooldown;
+    [FormerlySerializedAs("_imageCooldown")] [SerializeField]
+    private Image imageCooldown;
+    [FormerlySerializedAs("_textCooldown")] [SerializeField]
+    private TMP_Text textCooldown;
 
     private bool _isCooldown = true;
     private float _cooldownTime = 10.0f;
@@ -17,8 +18,8 @@ public class SpeelCooldown : MonoBehaviour
     
     void Start()
     {
-        _textCooldown.gameObject.SetActive(false);
-        _imageCooldown.fillAmount = 0.0f;
+        textCooldown.gameObject.SetActive(false);
+        imageCooldown.fillAmount = 0.0f;
         _cooldownTimer = _cooldownTime;
     }
 
@@ -38,14 +39,14 @@ public class SpeelCooldown : MonoBehaviour
         if (_cooldownTimer < 0.0f)
         {
             _isCooldown = false;
-            _textCooldown.gameObject.SetActive(false);
-            _imageCooldown.fillAmount = 0.0f;
+            textCooldown.gameObject.SetActive(false);
+            imageCooldown.fillAmount = 0.0f;
         }
         else
         {
-            _textCooldown.gameObject.SetActive(true);
-            _textCooldown.text = Mathf.RoundToInt(_cooldownTimer).ToString();
-            _imageCooldown.fillAmount = _cooldownTimer / _cooldownTime;
+            textCooldown.gameObject.SetActive(true);
+            textCooldown.text = Mathf.RoundToInt(_cooldownTimer).ToString();
+            imageCooldown.fillAmount = _cooldownTimer / _cooldownTime;
         }
     }
     public void UseSpell()
@@ -57,7 +58,7 @@ public class SpeelCooldown : MonoBehaviour
         else
         {
             _isCooldown = true;
-            _textCooldown.gameObject.SetActive(true);
+            textCooldown.gameObject.SetActive(true);
             _cooldownTimer = _cooldownTime;
             
         }

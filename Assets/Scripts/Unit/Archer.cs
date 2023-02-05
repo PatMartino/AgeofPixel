@@ -1,140 +1,161 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Archer : Unit
 {
-    public override void Start()
-    {
-        base.Start();
-        makeTag();
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        Movement();
-    }
+    private readonly float _movementRange=0.5f;
     void Update()
     {
-        attack();
+        Attack();
+        StopMovement();
     }
-    void makeTag()
+
+   /* private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (myUnit.isPlayer == true)
+        if (gameObject.CompareTag("Player"))
         {
-            tag = "Player";
-        }
-        else
-        {
-            tag = "Enemy";
-        }
-    }
-    public void Movement()
-    {
-        if (myUnit.isPlayer == true && movement)
-        {
-            transform.Translate(0.02f, 0, 0);
-        }
-        else if (isPlayer == false && movement)
-        {
-            transform.Translate(-0.02f, 0, 0);
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (gameObject.tag == "Player")
-        {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.CompareTag("Player") && İsAttack==false)
             {
-                movement = false;
+                Canmove2 = false;
             }
         }
-        else if (gameObject.tag == "Enemy")
+        else if (gameObject.CompareTag("Enemy")&& İsAttack==false)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if (collision.gameObject.CompareTag("Enemy"))
             {
-                movement = false;
+                Canmove2 = false;
             }
         }
     }
-    void giveDamage()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (enemy == null)
+        if (gameObject.CompareTag("Player"))
+        {
+            if (collision.gameObject.CompareTag("Player") && İsAttack==false)
+            {
+                Canmove2 = true;
+            }
+        }
+        else if (gameObject.CompareTag("Enemy")&& İsAttack==false)
+        {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                Canmove2 = true;
+            }
+        }
+    }*/
+    private void StopMovement()
+    {
+        if (gameObject.CompareTag("Player") )
+        {
+            RaycastHit2D hit1 = Physics2D.Raycast(transform.position + new Vector3(1, 0, 0), transform.right, _movementRange);
+            Debug.DrawLine(transform.position + new Vector3(1, 0, 0), (transform.position + transform.right * _movementRange) + new Vector3(1, 0, 0), Color.red);
+            if (hit1.collider != null)
+            {
+                if (hit1.collider.CompareTag("Player"))
+                {
+                    Canmove2 = false;
+                }
+            }
+            else
+            {
+                Canmove2 = true;
+            }
+        }
+        if (gameObject.CompareTag("Enemy") )
+        {
+            RaycastHit2D hit1 = Physics2D.Raycast(transform.position + new Vector3(-1, 0, 0), -transform.right, _movementRange);
+            Debug.DrawLine(transform.position + new Vector3(-1, 0, 0), (transform.position + -transform.right * _movementRange) + new Vector3(-1, 0, 0), Color.red);
+            if (hit1.collider != null)
+            {
+                if (hit1.collider.CompareTag("Enemy"))
+                {
+                    Canmove2 = false;
+                }
+            }
+            else
+            {
+                Canmove2 = true;
+            }
+        }
+    }
+    void GiveDamage()
+    {
+        if (Enemy == null)
         {
             Debug.Log(unitName + "Bum2");
         }
         else
         {
-            enemy.GetComponent<Unit>().healthPoint -= attackPower;
-            Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
+            Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
+            Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
         }
     }
-    public IEnumerator attackFunc()
+    
+    private IEnumerator AttackFunc()
     {
-        if (isAttack == false)
+        if (IsAttack == false)
         {
             while (true)
             {
                 //myAnimator.Play("Attack");
                 yield return new WaitForSeconds(2f);
-                if (enemy == null)
+                if (Enemy == null)
                 {
                     Debug.Log(unitName + "Bum1");
-                    isAttack = false;
+                    IsAttack = false;
                     break;
                 }
-
-                giveDamage();
-                
-                if (enemy.GetComponent<Unit>().healthPoint <= 0)
+                GiveDamage();
+                if (Enemy.GetComponent<Unit>().healthPoint <= 0)
                 {
-                    Destroy(enemy.gameObject);
-                    isAttack = false;
+                    Destroy(Enemy.gameObject);
+                    IsAttack = false;
                     break;
                 }
-
             }
         }
     }
-    void attack()
+    void Attack()
     {
-        if (gameObject.tag == "Player" )
+        if (gameObject.CompareTag("Player") )
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(1, 0, 0), transform.right, range, layerMask);
             Debug.DrawLine(transform.position + new Vector3(1, 0, 0), (transform.position + transform.right * range) + new Vector3(1, 0, 0), Color.green);
             if (hit.collider != null)
             {
-                if (hit.collider.tag == "Enemy")
+                if (hit.collider.CompareTag("Enemy"))
                 {
-                    movement = false;
-                    enemy = hit.transform;
-                    StartCoroutine(attackFunc());
-                    isAttack = true;
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(AttackFunc());
+                    IsAttack = true;
                 }
             }
             else
             {
-                movement = true;
+                Canmove = true;
+                Canmove2 = true;
             }
         }
-        if (gameObject.tag == "Enemy" )
+        if (gameObject.CompareTag("Enemy") )
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-1, 0, 0), -transform.right, range, layerMask);
             Debug.DrawLine(transform.position + new Vector3(-1, 0, 0), (transform.position + -transform.right * range) + new Vector3(-1, 0, 0), Color.green);
             if (hit.collider != null)
             {
-                if (hit.collider.tag == "Player")
+                if (hit.collider.CompareTag("Player"))
                 {
-                    movement = false;
-                    enemy = hit.transform;
-                    StartCoroutine(attackFunc());
-                    isAttack = true;
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(AttackFunc());
+                    IsAttack = true;
                 }
             }
             else
             {
-                movement = true;
+                Canmove = true;
+                Canmove2 = true;
             }
         }
     }

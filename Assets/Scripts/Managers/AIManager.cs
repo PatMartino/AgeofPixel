@@ -1,50 +1,53 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AIManager : MonoBehaviour
+namespace Managers
 {
-    int unitNumber;
-    float time;
-    bool spawn = false;  
-    void Update()
+    public class AIManager : MonoBehaviour
     {
-        StartCoroutine(Spawn());
-    }
-    IEnumerator Spawn()
-    {
-        while (spawn == false)
+        [SerializeField] private GameObject enemyUnitSpawnPoint;
+        int _unitNumber;
+        float _time;
+        bool _spawn = false;  
+        void Update()
         {
-            spawn = true;
-            yield return new WaitForSeconds(1f);
-            UnitTimer();
+            StartCoroutine(Spawn());
         }
-    }
-    void UnitTimer()
-    {
+        IEnumerator Spawn()
+        {
+            while (_spawn == false)
+            {
+                _spawn = true;
+                yield return new WaitForSeconds(1f);
+                UnitTimer();
+            }
+        }
+        void UnitTimer()
+        {
             
-            unitNumber = Random.Range(0, 2);
-            time = Random.Range(4, 12);
+            _unitNumber = Random.Range(0, 2);
+            _time = Random.Range(4, 12);
             StartCoroutine(Timer());
             
             
-    }
-    IEnumerator Timer()
-    {
-        yield return new WaitForSeconds(time);
-        EnemyUnitSpawn();
-        Debug.LogWarning("Bum");
-        spawn = false;
-    }
-    void EnemyUnitSpawn()
-    {
-        if (unitNumber == 0)
-        {
-            Object.Instantiate(Resources.Load<GameObject>("Swordsman(Enemy)"), new Vector3(11, 0, 0), Quaternion.identity);
         }
-        else if (unitNumber == 1)
+        IEnumerator Timer()
         {
-            Object.Instantiate(Resources.Load<GameObject>("Enemy_Archer"), new Vector3(11, 0, 0), Quaternion.identity);
+            yield return new WaitForSeconds(_time);
+            EnemyUnitSpawn();
+            Debug.LogWarning("Bum");
+            _spawn = false;
+        }
+        void EnemyUnitSpawn()
+        {
+            if (_unitNumber == 0)
+            {
+                Object.Instantiate(Resources.Load<GameObject>("Swordsman(Enemy)"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
+            }
+            else if (_unitNumber == 1)
+            {
+                Object.Instantiate(Resources.Load<GameObject>("Enemy_Archer"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
+            }
         }
     }
 }
