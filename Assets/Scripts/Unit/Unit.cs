@@ -1,124 +1,119 @@
-using UnityEngine;
 using System.Collections;
 using Managers;
-using UnityEngine.Serialization;
+using UnityEngine;
 
-public class Unit : MonoBehaviour
+namespace Unit
 {
-    [HideInInspector]
-    public int healthPoint;    
-    [HideInInspector]
-    public string unitName;   
-    [HideInInspector]
-    public int range;
-    [HideInInspector]
-    public int unitCost;
-    [HideInInspector]
-    public int unitRevenue;
-
-    protected int AttackPower;
-    protected bool Canmove = true;
-    protected bool Canmove2 = true;
-    protected Transform Enemy;
-    protected bool IsAttack = false;
-    public LayerMask layerMask;
-    protected bool IsPlayer;
-    private GameObject _gameManager;
-    
-    public UnitData myUnit;
-    
-    public virtual void  Start()
+    public class Unit : MonoBehaviour
     {
-        _gameManager= GameObject.FindGameObjectWithTag("GameManager");
-        healthPoint = myUnit.healthPoint;
-        AttackPower = myUnit.attackPower;
-        unitName = myUnit.unitName;
+        [HideInInspector]
+        public int healthPoint;    
+        [HideInInspector]
+        public string unitName;   
+        [HideInInspector]
+        public int range;
+        [HideInInspector]
+        public int unitCost;
+        [HideInInspector]
+        public int unitRevenue;
+
+        protected int AttackPower;
+        protected bool Canmove = true;
+        protected bool Canmove2 = true;
+        protected Transform Enemy;
+        protected bool IsAttack;
+        public LayerMask layerMask;
+        protected bool IsPlayer;
+        private GameObject _gameManager;
+    
+        public UnitData myUnit;
+    
+        public virtual void  Start()
+        {
+            _gameManager= GameObject.FindGameObjectWithTag("GameManager");
+            healthPoint = myUnit.healthPoint;
+            AttackPower = myUnit.attackPower;
+            unitName = myUnit.unitName;
         
-        unitCost = myUnit.unitCost;
-        unitRevenue = myUnit.unitReveune;
-        IsPlayer = myUnit.isPlayer;
-        range = myUnit.range;
-        MakeTag();
-    }
-    public virtual void FixedUpdate()
-    {
-        Movement();
-    }
+            unitCost = myUnit.unitCost;
+            unitRevenue = myUnit.unitReveune;
+            IsPlayer = myUnit.isPlayer;
+            range = myUnit.range;
+            MakeTag();
+        }
+        public virtual void FixedUpdate()
+        {
+            Movement();
+        }
 
-    private void Movement()
-    {
-        if (IsPlayer&& Canmove && Canmove2)
+        private void Movement()
         {
-            transform.Translate(0.02f, 0, 0);
-        }
-        else if (IsPlayer == false && Canmove && Canmove2)
-        {
-            transform.Translate(-0.02f, 0, 0);
-        }
-    }
-
-    private void MakeTag()
-    {
-        if (myUnit.isPlayer)
-        {
-            tag = "Player";
-        }
-        else
-        {
-            tag = "Enemy";
-        }
-    }
-
-    protected virtual IEnumerator CastleAttack()
-    {
-        if (IsPlayer)
-        {
-            if (IsAttack == false)
+            switch (IsPlayer)
             {
-                while (true)
+                case true when Canmove && Canmove2:
+                    transform.Translate(0.02f, 0, 0);
+                    break;
+                case false when Canmove && Canmove2:
+                    transform.Translate(-0.02f, 0, 0);
+                    break;
+            }
+        }
+
+        private void MakeTag()
+        {
+            tag = myUnit.isPlayer ? "Player" : "Enemy";
+        }
+
+        protected IEnumerator CastleAttack()
+        {
+            if (IsPlayer)
+            {
+                if (IsAttack == false)
                 {
-                    //myAnimator.Play("Attack");
-                    yield return new WaitForSeconds(2f);
-                    if (Enemy == null||!Enemy.gameObject.CompareTag("Castle2"))
+                    while (true)
                     {
-                        Debug.Log(unitName + "Bum1");
-                        IsAttack = false;
-                        break;
+                        //myAnimator.Play("Attack");
+                        yield return new WaitForSeconds(2f);
+                        if (Enemy == null||!Enemy.gameObject.CompareTag("Castle2"))
+                        {
+                            Debug.Log(unitName + "Bum1");
+                            IsAttack = false;
+                            break;
+                        }
+                        Enemy.GetComponent<Castles>().castle2Hp -= AttackPower;
+                        Debug.Log(Enemy.GetComponent<Castles>().castle2Hp);
+                        if (Enemy.GetComponent<Castles>().castle2Hp <= 0)
+                        {
+                            _gameManager.GetComponent<GameManager>().EndGame(1);
+                        }
                     }
-                    Enemy.GetComponent<Castles>().castle2Hp -= AttackPower;
-                    Debug.Log(Enemy.GetComponent<Castles>().castle2Hp);
-                    if (Enemy.GetComponent<Castles>().castle2Hp <= 0)
+                }
+            }
+            else
+            {
+                if (IsAttack == false)
+                {
+                    while (true)
                     {
-                        _gameManager.GetComponent<GameManager>().EndGame(1);
+                        //myAnimator.Play("Attack");
+                        yield return new WaitForSeconds(2f);
+                        if (Enemy == null||!Enemy.gameObject.CompareTag("Castle1"))
+                        {
+                            Debug.Log(unitName + "Bum1");
+                            IsAttack = false;
+                            break;
+                        }
+                        Enemy.GetComponent<Castles>().castle1Hp -= AttackPower;
+                        Debug.Log(Enemy.GetComponent<Castles>().castle1Hp);
+                        if (Enemy.GetComponent<Castles>().castle1Hp <= 0)
+                        {
+                            _gameManager.GetComponent<GameManager>().EndGame(1);
+                        }
                     }
                 }
             }
         }
-        else
-        {
-            if (IsAttack == false)
-            {
-                while (true)
-                {
-                    //myAnimator.Play("Attack");
-                    yield return new WaitForSeconds(2f);
-                    if (Enemy == null||!Enemy.gameObject.CompareTag("Castle1"))
-                    {
-                        Debug.Log(unitName + "Bum1");
-                        IsAttack = false;
-                        break;
-                    }
-                    Enemy.GetComponent<Castles>().castle1Hp -= AttackPower;
-                    Debug.Log(Enemy.GetComponent<Castles>().castle1Hp);
-                    if (Enemy.GetComponent<Castles>().castle1Hp <= 0)
-                    {
-                        _gameManager.GetComponent<GameManager>().EndGame(1);
-                    }
-                }
-            }
-        }
-    }
-    /*private void OnTriggerEnter2D(Collider2D collision)
+        /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
         {
@@ -154,7 +149,7 @@ public class Unit : MonoBehaviour
         }
     }
     */
-    /*private void OnTriggerEnter2D(Collider2D collision)
+        /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.tag == "Player")
         {
@@ -203,7 +198,7 @@ public class Unit : MonoBehaviour
             }
         }
     }*/
-    /*void giveDamage()
+        /*void giveDamage()
     {
         enemy.GetComponent<Unit>().healthPoint -= attackPower;
         Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
@@ -334,5 +329,6 @@ public class Unit : MonoBehaviour
 
 
     }*/
+    }
 }
 

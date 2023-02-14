@@ -1,117 +1,126 @@
 using System.Collections;
 using UnityEngine;
 
-public class Swordsman : Unit
+namespace Unit
 {
-    private void Update()
+    public class Swordsman : Unit
     {
-        Attack();
-    }
+        private void Update()
+        {
+            Attack();
+        }
 
-    void GiveDamage()
-    {
-        if (Enemy == null)
+        private void GiveDamage()
         {
-            Debug.Log(unitName+"Bum2");
-        }
-        else
-        {
-            Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
-            Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
-        }
+            if (Enemy == null)
+            {
+                Debug.Log(unitName+"Bum2");
+            }
+            else
+            {
+                Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
+                Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
+            }
         
-    }
+        }
 
-    private IEnumerator AttackFunc()
-    {
-        if (IsAttack == false)
+        private IEnumerator AttackFunc()
         {
-            while (true)
+            if (IsAttack == false)
             {
-                //myAnimator.Play("Attack");
-                yield return new WaitForSeconds(2f);
-                GiveDamage();
-                if (Enemy == null)
+                while (true)
                 {
-                    Debug.Log(unitName + "Bum1");
-                    IsAttack = false;
-                    break;
-                }
+                    //myAnimator.Play("Attack");
+                    yield return new WaitForSeconds(2f);
+                    GiveDamage();
+                    if (Enemy == null)
+                    {
+                        Debug.Log(unitName + "Bum1");
+                        IsAttack = false;
+                        break;
+                    }
 
-                if (Enemy.GetComponent<Unit>().healthPoint <= 0)
-                {
-                    Destroy(Enemy.gameObject);
-                    IsAttack = false;
-                    break;
+                    if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                    {
+                        Destroy(Enemy.gameObject);
+                        IsAttack = false;
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    private void Attack()
-    {
-        if (gameObject.CompareTag("Player") )
+        private void Attack()
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(1, 0, 0), transform.right, range);
-            Debug.DrawLine(transform.position + new Vector3(1, 0, 0), (transform.position + transform.right * range) + new Vector3(1, 0, 0), Color.green);
-
-            if (hit.collider != null)
+            if (gameObject.CompareTag("Player") )
             {
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    Canmove = false;
-                    Enemy = hit.transform;
-                    StartCoroutine(AttackFunc());
-                    IsAttack = true;
-                }
-                if (hit.collider.CompareTag("Castle2"))
-                {
-                    Canmove = false;
-                    Enemy = hit.transform;
-                    StartCoroutine(CastleAttack());
-                    IsAttack = true;
-                }
-                if (hit.collider.CompareTag("Player"))
-                {
-                    Canmove = false;
-                }
+                var transform1 = transform;
+                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(1, 0, 0), transform1.right, range);
+                var transform2 = transform;
+                var position = transform2.position;
+                Debug.DrawLine(position + new Vector3(1, 0, 0), (position + transform2.right * range) + new Vector3(1, 0, 0), Color.green);
 
+                if (hit.collider != null)
+                {
+                    if (hit.collider.CompareTag("Enemy"))
+                    {
+                        Canmove = false;
+                        Enemy = hit.transform;
+                        StartCoroutine(AttackFunc());
+                        IsAttack = true;
+                    }
+                    if (hit.collider.CompareTag("Castle2"))
+                    {
+                        Canmove = false;
+                        Enemy = hit.transform;
+                        StartCoroutine(CastleAttack());
+                        IsAttack = true;
+                    }
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        Canmove = false;
+                    }
+
+                }
+                else
+                {
+                    Canmove = true;
+                }
             }
-            else
+            if (gameObject.CompareTag("Enemy") )
             {
-                Canmove = true;
-            }
-        }
-        if (gameObject.CompareTag("Enemy") )
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-1f, 0, 0), -transform.right, range);
-            Debug.DrawLine(transform.position + new Vector3(-1f, 0, 0), (transform.position + -transform.right * range) + new Vector3(-1f, 0, 0), Color.green);
+                var transform1 = transform;
+                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(-1f, 0, 0), -transform1.right, range);
+                var transform2 = transform;
+                var position = transform2.position;
+                Debug.DrawLine(position + new Vector3(-1f, 0, 0), (position + -transform2.right * range) + new Vector3(-1f, 0, 0), Color.green);
 
-            if (hit.collider != null)
-            {
-                if (hit.collider.CompareTag("Player"))
+                if (hit.collider != null)
                 {
+                    if (hit.collider.CompareTag("Player"))
+                    {
                     
-                    Canmove = false;
-                    Enemy = hit.transform;
-                    StartCoroutine(AttackFunc());
-                    IsAttack = true;
+                        Canmove = false;
+                        Enemy = hit.transform;
+                        StartCoroutine(AttackFunc());
+                        IsAttack = true;
+                    }
+                    if (hit.collider.CompareTag("Castle1"))
+                    {
+                        Canmove = false;
+                        Enemy = hit.transform;
+                        StartCoroutine(CastleAttack());
+                        IsAttack = true;
+                    }
+                    if (hit.collider.CompareTag("Enemy"))
+                    {
+                        Canmove = false;
+                    }
                 }
-                if (hit.collider.CompareTag("Castle1"))
+                else
                 {
-                    Canmove = false;
-                    Enemy = hit.transform;
-                    StartCoroutine(CastleAttack());
-                    IsAttack = true;
+                    Canmove = true;
                 }
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    Canmove = false;
-                }
-            }
-            else
-            {
-                Canmove = true;
             }
         }
     }

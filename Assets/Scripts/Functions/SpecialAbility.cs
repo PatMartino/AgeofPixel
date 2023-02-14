@@ -1,7 +1,5 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Signals;
 
@@ -32,22 +30,13 @@ namespace Functions
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onSpecialAbility += OnSpecialAbility;
             CoreGameSignals.Instance.onSpecialAbilityCooldown += OnSpecialAbilityCooldown;
         }
         
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.onSpecialAbility -= OnSpecialAbility;
             CoreGameSignals.Instance.onSpecialAbilityCooldown -= OnSpecialAbilityCooldown;
         }
-        
-
-        private void OnSpecialAbility()
-        {
-            Debug.LogWarning("Tatattaat");
-        }
-
         void Update()
         {     
             if (_isCooldown)

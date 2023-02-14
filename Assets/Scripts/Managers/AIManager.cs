@@ -1,52 +1,79 @@
 using System.Collections;
+using Signals;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
     public class AIManager : MonoBehaviour
     {
         [SerializeField] private GameObject enemyUnitSpawnPoint;
-        int _unitNumber;
-        float _time;
-        bool _spawn = false;  
-        void Update()
+        private int _unitNumber;
+        private float _unitTime;
+        private float _meteorTime;
+        private IEnumerator _enumerator;
+        private IEnumerator _enumerator1;
+
+        private void OnEnable()
         {
-            StartCoroutine(Spawn());
+            SubscribeEvents();
+            AISignals.Instance.onCPUMeteorUsing?.Invoke();
         }
-        IEnumerator Spawn()
+
+        private void Start()
         {
-            while (_spawn == false)
-            {
-                _spawn = true;
-                yield return new WaitForSeconds(1f);
-                UnitTimer();
-            }
+            _enumerator1 = MeteorTimer();
+            _enumerator = Spawn();
+            AISignals.Instance.onEnemyUnitSpawning?.Invoke();
         }
-        void UnitTimer()
+
+        private void SubscribeEvents()
         {
-            
+            AISignals.Instance.onEnemyUnitSpawning += OnEnemyUnitSpawning;
+            AISignals.Instance.onCPUMeteorUsing += OnCPUMeteorUsing;
+        }
+
+        private void OnCPUMeteorUsing()
+        {
+            _enumerator1 = MeteorTimer();
+            StartCoroutine(_enumerator1);
+        }
+
+        IEnumerator MeteorTimer()
+        {
+            _meteorTime = Random.Range(5, 20);
+            yield return new WaitForSeconds(_meteorTime);
+            CoreGameSignals.Instance.onCPUMeteorMovement?.Invoke();
+            AISignals.Instance.onCPUMeteorUsing?.Invoke();
+        }
+
+        private void OnEnemyUnitSpawning()
+        {
+            _enumerator = Spawn();
+            StartCoroutine(_enumerator);
+        }
+
+        private IEnumerator Spawn()
+        {
             _unitNumber = Random.Range(0, 2);
-            _time = Random.Range(4, 12);
-            StartCoroutine(Timer());
-            
-            
-        }
-        IEnumerator Timer()
-        {
-            yield return new WaitForSeconds(_time);
-            EnemyUnitSpawn();
+            _unitTime = Random.Range(4, 12);
+            yield return new WaitForSeconds(_unitTime);
             Debug.LogWarning("Bum");
-            _spawn = false;
+            EnemyUnitSpawn();
         }
-        void EnemyUnitSpawn()
+
+        private void EnemyUnitSpawn()
         {
-            if (_unitNumber == 0)
+            switch (_unitNumber)
             {
-                Object.Instantiate(Resources.Load<GameObject>("Swordsman(Enemy)"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
-            }
-            else if (_unitNumber == 1)
-            {
-                Object.Instantiate(Resources.Load<GameObject>("Enemy_Archer"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
+                case 0:
+                    Instantiate(Resources.Load<GameObject>("Swordsman(Enemy)"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
+                    AISignals.Instance.onEnemyUnitSpawning.Invoke();
+                    break;
+                case 1:
+                    Instantiate(Resources.Load<GameObject>("Enemy_Archer"), enemyUnitSpawnPoint.transform.position, Quaternion.identity);
+                    AISignals.Instance.onEnemyUnitSpawning.Invoke();
+                    break;
             }
         }
     }
