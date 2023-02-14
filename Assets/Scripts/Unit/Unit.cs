@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections;
+using Managers;
+using UnityEngine.Serialization;
 
 public class Unit : MonoBehaviour
 {
@@ -20,11 +23,13 @@ public class Unit : MonoBehaviour
     protected bool IsAttack = false;
     public LayerMask layerMask;
     protected bool IsPlayer;
+    private GameObject _gameManager;
     
     public UnitData myUnit;
     
     public virtual void  Start()
     {
+        _gameManager= GameObject.FindGameObjectWithTag("GameManager");
         healthPoint = myUnit.healthPoint;
         AttackPower = myUnit.attackPower;
         unitName = myUnit.unitName;
@@ -61,6 +66,56 @@ public class Unit : MonoBehaviour
         else
         {
             tag = "Enemy";
+        }
+    }
+
+    protected virtual IEnumerator CastleAttack()
+    {
+        if (IsPlayer)
+        {
+            if (IsAttack == false)
+            {
+                while (true)
+                {
+                    //myAnimator.Play("Attack");
+                    yield return new WaitForSeconds(2f);
+                    if (Enemy == null||!Enemy.gameObject.CompareTag("Castle2"))
+                    {
+                        Debug.Log(unitName + "Bum1");
+                        IsAttack = false;
+                        break;
+                    }
+                    Enemy.GetComponent<Castles>().castle2Hp -= AttackPower;
+                    Debug.Log(Enemy.GetComponent<Castles>().castle2Hp);
+                    if (Enemy.GetComponent<Castles>().castle2Hp <= 0)
+                    {
+                        _gameManager.GetComponent<GameManager>().EndGame(1);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (IsAttack == false)
+            {
+                while (true)
+                {
+                    //myAnimator.Play("Attack");
+                    yield return new WaitForSeconds(2f);
+                    if (Enemy == null||!Enemy.gameObject.CompareTag("Castle1"))
+                    {
+                        Debug.Log(unitName + "Bum1");
+                        IsAttack = false;
+                        break;
+                    }
+                    Enemy.GetComponent<Castles>().castle1Hp -= AttackPower;
+                    Debug.Log(Enemy.GetComponent<Castles>().castle1Hp);
+                    if (Enemy.GetComponent<Castles>().castle1Hp <= 0)
+                    {
+                        _gameManager.GetComponent<GameManager>().EndGame(1);
+                    }
+                }
+            }
         }
     }
     /*private void OnTriggerEnter2D(Collider2D collision)

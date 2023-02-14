@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Castle1
+  - Castle2
+  - GameManager
+  - MeteorReset
   layers:
   - Default
   - TransparentFX

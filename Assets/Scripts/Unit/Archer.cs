@@ -94,24 +94,51 @@ public class Archer : Unit
     
     private IEnumerator AttackFunc()
     {
-        if (IsAttack == false)
+        if (IsPlayer)
         {
-            while (true)
+            if (IsAttack == false)
             {
-                //myAnimator.Play("Attack");
-                yield return new WaitForSeconds(2f);
-                if (Enemy == null)
+                while (true)
                 {
-                    Debug.Log(unitName + "Bum1");
-                    IsAttack = false;
-                    break;
+                    //myAnimator.Play("Attack");
+                    yield return new WaitForSeconds(2f);
+                    if (Enemy == null|| !Enemy.gameObject.CompareTag("Enemy"))
+                    {
+                        Debug.Log(unitName + "Bum1");
+                        IsAttack = false;
+                        break;
+                    }
+                    GiveDamage();
+                    if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                    {
+                        Destroy(Enemy.gameObject);
+                        IsAttack = false;
+                        break;
+                    }
                 }
-                GiveDamage();
-                if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+            }
+        }
+        else
+        {
+            if (IsAttack == false)
+            {
+                while (true)
                 {
-                    Destroy(Enemy.gameObject);
-                    IsAttack = false;
-                    break;
+                    //myAnimator.Play("Attack");
+                    yield return new WaitForSeconds(2f);
+                    if (Enemy == null|| !Enemy.gameObject.CompareTag("Player"))
+                    {
+                        Debug.Log(unitName + "Bum1");
+                        IsAttack = false;
+                        break;
+                    }
+                    GiveDamage();
+                    if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                    {
+                        Destroy(Enemy.gameObject);
+                        IsAttack = false;
+                        break;
+                    }
                 }
             }
         }
@@ -129,6 +156,13 @@ public class Archer : Unit
                     Canmove = false;
                     Enemy = hit.transform;
                     StartCoroutine(AttackFunc());
+                    IsAttack = true;
+                }
+                if (hit.collider.CompareTag("Castle2"))
+                {
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(CastleAttack());
                     IsAttack = true;
                 }
             }
@@ -151,6 +185,13 @@ public class Archer : Unit
                     StartCoroutine(AttackFunc());
                     IsAttack = true;
                 }
+                if (hit.collider.CompareTag("Castle1"))
+                {
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(CastleAttack());
+                    IsAttack = true;
+                }
             }
             else
             {
@@ -159,4 +200,6 @@ public class Archer : Unit
             }
         }
     }
+
+    
 }

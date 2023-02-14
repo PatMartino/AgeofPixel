@@ -44,11 +44,8 @@ public class Swordsman : Unit
                     IsAttack = false;
                     break;
                 }
-
-
             }
         }
-
     }
 
     private void Attack()
@@ -65,6 +62,13 @@ public class Swordsman : Unit
                     Canmove = false;
                     Enemy = hit.transform;
                     StartCoroutine(AttackFunc());
+                    IsAttack = true;
+                }
+                if (hit.collider.CompareTag("Castle2"))
+                {
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(CastleAttack());
                     IsAttack = true;
                 }
                 if (hit.collider.CompareTag("Player"))
@@ -91,6 +95,13 @@ public class Swordsman : Unit
                     Canmove = false;
                     Enemy = hit.transform;
                     StartCoroutine(AttackFunc());
+                    IsAttack = true;
+                }
+                if (hit.collider.CompareTag("Castle1"))
+                {
+                    Canmove = false;
+                    Enemy = hit.transform;
+                    StartCoroutine(CastleAttack());
                     IsAttack = true;
                 }
                 if (hit.collider.CompareTag("Enemy"))
