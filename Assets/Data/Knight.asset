@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Knight
   artwork: {fileID: 0}
-  healthPoint: 50
-  attackPower: 10
+  healthPoint: 40
+  attackPower: 15
   isPlayer: 1
-  range: 1
+  range: 0.1
   unitCost: 0
   unitReveune: 0

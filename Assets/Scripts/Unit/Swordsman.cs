@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using Managers;
+using Signals;
 
 namespace Unit
 {
@@ -30,7 +32,7 @@ namespace Unit
             {
                 while (true)
                 {
-                    //myAnimator.Play("Attack");
+                    //UnitSignals.Instance.onAttackingAnimation?.Invoke();
                     yield return new WaitForSeconds(2f);
                     GiveDamage();
                     if (Enemy == null)
@@ -42,6 +44,10 @@ namespace Unit
 
                     if (Enemy.GetComponent<Unit>().healthPoint <= 0)
                     {
+                        if (gameObject.CompareTag(("Player")))
+                        {
+                            CoreGameSignals.Instance.onKillEnemyUnit(Enemy.GetComponent<Unit>().unitRevenue);
+                        }
                         Destroy(Enemy.gameObject);
                         IsAttack = false;
                         break;
@@ -55,10 +61,10 @@ namespace Unit
             if (gameObject.CompareTag("Player") )
             {
                 var transform1 = transform;
-                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(1, 0, 0), transform1.right, range);
+                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(0.5f, 0, 0), transform1.right, range);
                 var transform2 = transform;
                 var position = transform2.position;
-                Debug.DrawLine(position + new Vector3(1, 0, 0), (position + transform2.right * range) + new Vector3(1, 0, 0), Color.green);
+                Debug.DrawLine(position + new Vector3(0.5f, 0, 0), (position + transform2.right * range) + new Vector3(0.5f, 0, 0), Color.green);
 
                 if (hit.collider != null)
                 {
@@ -90,10 +96,10 @@ namespace Unit
             if (gameObject.CompareTag("Enemy") )
             {
                 var transform1 = transform;
-                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(-1f, 0, 0), -transform1.right, range);
+                RaycastHit2D hit = Physics2D.Raycast(transform1.position + new Vector3(-0.5f, 0, 0), -transform1.right, range);
                 var transform2 = transform;
                 var position = transform2.position;
-                Debug.DrawLine(position + new Vector3(-1f, 0, 0), (position + -transform2.right * range) + new Vector3(-1f, 0, 0), Color.green);
+                Debug.DrawLine(position + new Vector3(-0.5f, 0, 0), (position + -transform2.right * range) + new Vector3(-0.5f, 0, 0), Color.green);
 
                 if (hit.collider != null)
                 {

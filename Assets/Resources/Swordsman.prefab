@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3887165137579262081}
   - component: {fileID: 3887165137579262080}
   - component: {fileID: 3887165137579262085}
+  - component: {fileID: 1170049206699918956}
+  - component: {fileID: 408022835}
   m_Layer: 6
   m_Name: Swordsman
   m_TagString: Untagged
@@ -155,3 +157,36 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   myUnit: {fileID: 11400000, guid: 0632c9754fab7504fa83be9e077b617f, type: 2}
+--- !u!114 &1170049206699918956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3887165137579262084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaf1647bf46c51945a1c53b3e64b47d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 408022835}
+--- !u!95 &408022835
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3887165137579262084}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b884a2f64de6d884794647e727b6af40, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

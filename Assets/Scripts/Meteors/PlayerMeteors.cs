@@ -1,6 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Signals;
+using Unit;
 
 namespace Meteors
 {
@@ -53,6 +54,7 @@ namespace Meteors
             }
             else if(col.gameObject.CompareTag("Enemy"))
             {
+                CoreGameSignals.Instance.onKillEnemyUnit?.Invoke(col.GetComponent<Unit.Unit>().unitRevenue);
                 Destroy(col.gameObject);
             }
         }

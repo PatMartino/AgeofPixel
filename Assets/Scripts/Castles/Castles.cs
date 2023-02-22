@@ -11,17 +11,7 @@ public class Castles : MonoBehaviour
 
     [SerializeField]
     private GameManager gameManager;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void Stop()
     {
         Time.timeScale = 0.0f;

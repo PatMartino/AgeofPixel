@@ -41,7 +41,7 @@ namespace Managers
 
         IEnumerator MeteorTimer()
         {
-            _meteorTime = Random.Range(5, 20);
+            _meteorTime = Random.Range(10, 30);
             yield return new WaitForSeconds(_meteorTime);
             CoreGameSignals.Instance.onCPUMeteorMovement?.Invoke();
             AISignals.Instance.onCPUMeteorUsing?.Invoke();

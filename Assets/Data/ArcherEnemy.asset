@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Archer(Enemy)
   artwork: {fileID: 0}
   healthPoint: 30
-  attackPower: 15
+  attackPower: 5
   isPlayer: 0
   range: 4
   unitCost: 0
-  unitReveune: 0
+  unitReveune: 200

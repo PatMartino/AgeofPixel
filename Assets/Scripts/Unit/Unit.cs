@@ -1,6 +1,8 @@
 using System.Collections;
+using Data;
 using Managers;
 using UnityEngine;
+using Signals;
 
 namespace Unit
 {
@@ -11,7 +13,7 @@ namespace Unit
         [HideInInspector]
         public string unitName;   
         [HideInInspector]
-        public int range;
+        public float range;
         [HideInInspector]
         public int unitCost;
         [HideInInspector]
@@ -52,9 +54,11 @@ namespace Unit
             {
                 case true when Canmove && Canmove2:
                     transform.Translate(0.02f, 0, 0);
+                    //UnitSignals.Instance.onWalkingAnimation?.Invoke();
                     break;
                 case false when Canmove && Canmove2:
                     transform.Translate(-0.02f, 0, 0);
+                    //UnitSignals.Instance.onWalkingAnimation?.Invoke();
                     break;
             }
         }

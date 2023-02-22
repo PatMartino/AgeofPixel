@@ -1,11 +1,21 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Signals;
+using Unity.VisualScripting;
+using UnityEngine.Serialization;
 
 namespace Unit
 {
     public class Archer : Unit
     {
         private const float MovementRange = 0.5f;
+        [SerializeField] private Animator animator;
+
+        private void OnEnable()
+        {
+            animator = GetComponent<Animator>();
+        }
 
         void Update()
         {
@@ -74,8 +84,9 @@ namespace Unit
                 {
                     while (true)
                     {
-                        //myAnimator.Play("Attack");
-                        yield return new WaitForSeconds(2f);
+                        //UnitSignals.Instance.onAttackingAnimation.Invoke();
+                        animator.Play("Attack");
+                        yield return new WaitForSeconds(1f);
                         if (Enemy == null|| !Enemy.gameObject.CompareTag("Enemy"))
                         {
                             Debug.Log(unitName + "Bum1");
@@ -85,6 +96,10 @@ namespace Unit
                         GiveDamage();
                         if (Enemy.GetComponent<Unit>().healthPoint <= 0)
                         {
+                            if (gameObject.CompareTag(("Player")))
+                            {
+                                CoreGameSignals.Instance.onKillEnemyUnit(Enemy.GetComponent<Unit>().unitRevenue);
+                            }
                             Destroy(Enemy.gameObject);
                             IsAttack = false;
                             break;
@@ -98,8 +113,9 @@ namespace Unit
                 {
                     while (true)
                     {
-                        //myAnimator.Play("Attack");
-                        yield return new WaitForSeconds(2f);
+                        //UnitSignals.Instance.onAttackingAnimation.Invoke();
+                        animator.Play("Attack");
+                        yield return new WaitForSeconds(1f);
                         if (Enemy == null|| !Enemy.gameObject.CompareTag("Player"))
                         {
                             Debug.Log(unitName + "Bum1");
@@ -147,6 +163,8 @@ namespace Unit
                 {
                     Canmove = true;
                     Canmove2 = true;
+                    //UnitSignals.Instance.onWalkingAnimation.Invoke();
+                    animator.Play("Walk");
                 }
             }
             if (gameObject.CompareTag("Enemy") )
@@ -177,6 +195,8 @@ namespace Unit
                 {
                     Canmove = true;
                     Canmove2 = true;
+                    //UnitSignals.Instance.onWalkingAnimation.Invoke();
+                    animator.Play("Walk");
                 }
             }
         }

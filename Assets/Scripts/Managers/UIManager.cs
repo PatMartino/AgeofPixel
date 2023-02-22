@@ -8,20 +8,6 @@ namespace Managers
     {
         [SerializeField] private GameObject endGamePanel;
         [SerializeField] private TextMeshProUGUI congratulationsText;
-        
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            UISignals.Instance.onButtonClickedSpecialAbility += OnClickedSpecialAbility;
-        }
-
-        private static void OnClickedSpecialAbility()
-        {
-        }
 
         public void EndGamePanel(int caseNum)
         {
@@ -35,6 +21,16 @@ namespace Managers
                     congratulationsText.text = "Player2 Wins!!!";
                     break;
             }
+        }
+
+        public void SwordsmanButton()
+        {
+            UISignals.Instance.onClickedSwordsmanButton?.Invoke();
+        }
+
+        public void ArcherButton()
+        {
+            UISignals.Instance.onClickedArcherButton?.Invoke();
         }
     }
 }
