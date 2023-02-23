@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 222280574802717833}
   - component: {fileID: 222280574802717832}
   - component: {fileID: 222280574802717879}
-  - component: {fileID: 2897891499608205356}
   - component: {fileID: 5150937846483995523}
   m_Layer: 6
   m_Name: Archer
@@ -157,19 +156,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 183
   myUnit: {fileID: 11400000, guid: 582692a15ba8a5c419d6ab57c1c0ad1d, type: 2}
-  animator: {fileID: 0}
---- !u!114 &2897891499608205356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 222280574802717836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf1647bf46c51945a1c53b3e64b47d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   animator: {fileID: 5150937846483995523}
 --- !u!95 &5150937846483995523
 Animator:

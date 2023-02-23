@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
-using Managers;
 using Signals;
 
 namespace Unit
 {
     public class Swordsman : Unit
     {
+        [SerializeField] private Animator animator;
         private void Update()
         {
             Attack();
@@ -32,8 +32,8 @@ namespace Unit
             {
                 while (true)
                 {
-                    //UnitSignals.Instance.onAttackingAnimation?.Invoke();
-                    yield return new WaitForSeconds(2f);
+                    UnitSignals.Instance.onAttackingAnimation?.Invoke(animator);
+                    yield return new WaitForSeconds(1f);
                     GiveDamage();
                     if (Enemy == null)
                     {
@@ -91,6 +91,7 @@ namespace Unit
                 else
                 {
                     Canmove = true;
+                    UnitSignals.Instance.onWalkingAnimation.Invoke(animator);
                 }
             }
             if (gameObject.CompareTag("Enemy") )
@@ -126,6 +127,7 @@ namespace Unit
                 else
                 {
                     Canmove = true;
+                    UnitSignals.Instance.onWalkingAnimation.Invoke(animator);
                 }
             }
         }

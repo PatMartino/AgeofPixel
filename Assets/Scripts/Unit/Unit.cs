@@ -3,6 +3,7 @@ using Data;
 using Managers;
 using UnityEngine;
 using Signals;
+using UnityEngine.Serialization;
 
 namespace Unit
 {
@@ -20,6 +21,7 @@ namespace Unit
         public int unitRevenue;
 
         protected int AttackPower;
+        private Animator _animator;
         protected bool Canmove = true;
         protected bool Canmove2 = true;
         protected Transform Enemy;
@@ -32,6 +34,7 @@ namespace Unit
     
         public virtual void  Start()
         {
+            _animator = GetComponent<Animator>();
             _gameManager= GameObject.FindGameObjectWithTag("GameManager");
             healthPoint = myUnit.healthPoint;
             AttackPower = myUnit.attackPower;
@@ -76,8 +79,9 @@ namespace Unit
                 {
                     while (true)
                     {
+                        UnitSignals.Instance.onAttackingAnimation.Invoke(_animator);
                         //myAnimator.Play("Attack");
-                        yield return new WaitForSeconds(2f);
+                        yield return new WaitForSeconds(1f);
                         if (Enemy == null||!Enemy.gameObject.CompareTag("Castle2"))
                         {
                             Debug.Log(unitName + "Bum1");
@@ -99,8 +103,9 @@ namespace Unit
                 {
                     while (true)
                     {
+                        UnitSignals.Instance.onAttackingAnimation.Invoke(_animator);
                         //myAnimator.Play("Attack");
-                        yield return new WaitForSeconds(2f);
+                        yield return new WaitForSeconds(1f);
                         if (Enemy == null||!Enemy.gameObject.CompareTag("Castle1"))
                         {
                             Debug.Log(unitName + "Bum1");

@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Signals;
-using Unity.VisualScripting;
-using UnityEngine.Serialization;
 
 namespace Unit
 {
@@ -84,8 +81,8 @@ namespace Unit
                 {
                     while (true)
                     {
-                        //UnitSignals.Instance.onAttackingAnimation.Invoke();
-                        animator.Play("Attack");
+                        UnitSignals.Instance.onAttackingAnimation.Invoke(animator);
+                        //animator.Play("Attack");
                         yield return new WaitForSeconds(1f);
                         if (Enemy == null|| !Enemy.gameObject.CompareTag("Enemy"))
                         {
@@ -113,8 +110,8 @@ namespace Unit
                 {
                     while (true)
                     {
-                        //UnitSignals.Instance.onAttackingAnimation.Invoke();
-                        animator.Play("Attack");
+                        UnitSignals.Instance.onAttackingAnimation.Invoke(animator);
+                        //animator.Play("Attack");
                         yield return new WaitForSeconds(1f);
                         if (Enemy == null|| !Enemy.gameObject.CompareTag("Player"))
                         {
@@ -163,8 +160,8 @@ namespace Unit
                 {
                     Canmove = true;
                     Canmove2 = true;
-                    //UnitSignals.Instance.onWalkingAnimation.Invoke();
-                    animator.Play("Walk");
+                    UnitSignals.Instance.onWalkingAnimation.Invoke(animator);
+                    //animator.Play("Walk");
                 }
             }
             if (gameObject.CompareTag("Enemy") )
@@ -195,8 +192,8 @@ namespace Unit
                 {
                     Canmove = true;
                     Canmove2 = true;
-                    //UnitSignals.Instance.onWalkingAnimation.Invoke();
-                    animator.Play("Walk");
+                    UnitSignals.Instance.onWalkingAnimation.Invoke(animator);
+                    //animator.Play("Walk");
                 }
             }
         }

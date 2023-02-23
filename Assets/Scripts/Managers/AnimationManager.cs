@@ -1,15 +1,12 @@
 using Signals;
 using UnityEngine;
 
-namespace Unit
+namespace Managers
 {
-    public class UnitAnimator : MonoBehaviour
+    public class AnimationManager : MonoBehaviour
     {
-        /*[SerializeField]
-        private Animator animator;
         private void OnEnable()
         {
-            animator = GetComponent<Animator>();
             SubscribeEvents();
         }
         
@@ -27,19 +24,19 @@ namespace Unit
             UnitSignals.Instance.onAttackingAnimation -= OnAttackingAnimation;
             UnitSignals.Instance.onDyingAnimation -= OnDyingAnimation;
         }
-        private void OnIdleAnimation()
+        private void OnIdleAnimation(Animator animator)
         {
             animator.Play("Idle");
         }
-        private void OnWalkingAnimation()
+        private static void OnWalkingAnimation(Animator animator)
         {
             animator.Play("Walk");
         }
-        private void OnAttackingAnimation()
+        private static void OnAttackingAnimation(Animator animator)
         {
             animator.Play("Attack");
         }
-        private void OnDyingAnimation()
+        private void OnDyingAnimation(Animator animator)
         {
             animator.Play("Die");
         }
@@ -47,6 +44,6 @@ namespace Unit
         private void OnDisable()
         {
             UnSubscribeEvents();
-        }*/
+        }
     }
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6996393152865525316}
   - component: {fileID: 6996393152865525317}
   - component: {fileID: 6996393152865525313}
-  - component: {fileID: 7514727537604921153}
   - component: {fileID: 8068487467620641740}
   m_Layer: 7
   m_Name: Enemy_Archer
@@ -157,19 +156,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 119
   myUnit: {fileID: 11400000, guid: 083e64a5de284f34e974fe86f006ccad, type: 2}
-  animator: {fileID: 0}
---- !u!114 &7514727537604921153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996393152865525371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf1647bf46c51945a1c53b3e64b47d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   animator: {fileID: 8068487467620641740}
 --- !u!95 &8068487467620641740
 Animator:
@@ -181,7 +167,7 @@ Animator:
   m_GameObject: {fileID: 6996393152865525371}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f0cca78cac4452549afb90a6208ef124, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8627fb33da70e2a43bda7f256382b164, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
