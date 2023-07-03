@@ -6,7 +6,10 @@ namespace Unit
 {
     public class Swordsman : Unit
     {
-        [SerializeField] private Animator animator;
+        private void OnEnable()
+        {
+            animator = GetComponent<Animator>();
+        }
         private void Update()
         {
             Attack();
@@ -14,17 +17,18 @@ namespace Unit
 
         private void GiveDamage()
         {
-            if (Enemy == null)
+            if (enemy == null)
             {
                 Debug.Log(unitName+"Bum2");
             }
             else
             {
-                Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
-                Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
+                enemy.GetComponent<Unit>().healthPoint -= attackPower;
+                Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
             }
         
         }
+        //isAttack animator isPlayer Enemy
 
         private IEnumerator AttackFunc()
         {
@@ -35,26 +39,27 @@ namespace Unit
                     UnitSignals.Instance.onAttackingAnimation?.Invoke(animator);
                     yield return new WaitForSeconds(1f);
                     GiveDamage();
-                    if (Enemy == null)
+                    if (enemy == null)
                     {
                         Debug.Log(unitName + "Bum1");
                         IsAttack = false;
                         break;
                     }
 
-                    if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                    if (enemy.GetComponent<Unit>().healthPoint <= 0)
                     {
                         if (gameObject.CompareTag(("Player")))
                         {
-                            CoreGameSignals.Instance.onKillEnemyUnit(Enemy.GetComponent<Unit>().unitRevenue);
+                            CoreGameSignals.Instance.onKillEnemyUnit?.Invoke(enemy.GetComponent<Unit>().unitRevenue);
                         }
-                        Destroy(Enemy.gameObject);
+                        Destroy(enemy.gameObject);
                         IsAttack = false;
                         break;
                     }
                 }
             }
         }
+        //Isplayer Canmove Enemy IsAttack animator
 
         private void Attack()
         {
@@ -70,15 +75,16 @@ namespace Unit
                 {
                     if (hit.collider.CompareTag("Enemy"))
                     {
+                        //UnitSignals.Instance.onAttack?.Invoke(this);
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(AttackFunc());
                         IsAttack = true;
                     }
                     if (hit.collider.CompareTag("Castle2"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(CastleAttack());
                         IsAttack = true;
                     }
@@ -108,14 +114,14 @@ namespace Unit
                     {
                     
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(AttackFunc());
                         IsAttack = true;
                     }
                     if (hit.collider.CompareTag("Castle1"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(CastleAttack());
                         IsAttack = true;
                     }

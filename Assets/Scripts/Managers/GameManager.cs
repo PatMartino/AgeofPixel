@@ -1,10 +1,23 @@
+using System;
 using UnityEngine;
+using Signals;
 
 namespace Managers
 {
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private GameObject uIManager;
+
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            CoreGameSignals.Instance.endGame += EndGame;
+        }
+
         public void EndGame(int caseNum)
         {
             switch (caseNum)

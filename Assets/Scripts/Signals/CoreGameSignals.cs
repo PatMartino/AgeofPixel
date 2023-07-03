@@ -15,5 +15,6 @@ namespace Signals
         public UnityAction onInstantiateArcher = delegate {  };
         public UnityAction<int> onKillEnemyUnit = delegate {  };
         public UnityAction<int> onEarningMoney = delegate {  };
+        public UnityAction<int> endGame = delegate {  };
     }
 }

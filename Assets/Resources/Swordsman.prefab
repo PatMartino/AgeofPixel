@@ -152,11 +152,14 @@ MonoBehaviour:
   range: 1
   unitCost: 0
   unitRevenue: 0
+  attackPower: 0
+  movementRange: 0.5
+  enemy: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  myUnit: {fileID: 11400000, guid: 0632c9754fab7504fa83be9e077b617f, type: 2}
   animator: {fileID: 408022835}
+  myUnit: {fileID: 11400000, guid: 0632c9754fab7504fa83be9e077b617f, type: 2}
 --- !u!95 &408022835
 Animator:
   serializedVersion: 4

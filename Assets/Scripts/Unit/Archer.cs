@@ -6,8 +6,8 @@ namespace Unit
 {
     public class Archer : Unit
     {
-        private const float MovementRange = 0.5f;
-        [SerializeField] private Animator animator;
+        
+        
 
         private void OnEnable()
         {
@@ -24,10 +24,10 @@ namespace Unit
             if (gameObject.CompareTag("Player") )
             {
                 var transform1 = transform;
-                RaycastHit2D hit1 = Physics2D.Raycast(transform1.position + new Vector3(1, 0, 0), transform1.right, MovementRange);
+                RaycastHit2D hit1 = Physics2D.Raycast(transform1.position + new Vector3(1, 0, 0), transform1.right, movementRange);
                 var transform2 = transform;
                 var position = transform2.position;
-                Debug.DrawLine(position + new Vector3(1, 0, 0), (position + transform2.right * MovementRange) + new Vector3(1, 0, 0), Color.red);
+                Debug.DrawLine(position + new Vector3(1, 0, 0), (position + transform2.right * movementRange) + new Vector3(1, 0, 0), Color.red);
                 if (hit1.collider != null)
                 {
                     if (hit1.collider.CompareTag("Player"))
@@ -43,10 +43,10 @@ namespace Unit
             if (gameObject.CompareTag("Enemy") )
             {
                 var transform1 = transform;
-                RaycastHit2D hit1 = Physics2D.Raycast(transform1.position + new Vector3(-1, 0, 0), -transform1.right, MovementRange);
+                RaycastHit2D hit1 = Physics2D.Raycast(transform1.position + new Vector3(-1, 0, 0), -transform1.right, movementRange);
                 var transform2 = transform;
                 var position = transform2.position;
-                Debug.DrawLine(position + new Vector3(-1, 0, 0), (position + -transform2.right * MovementRange) + new Vector3(-1, 0, 0), Color.red);
+                Debug.DrawLine(position + new Vector3(-1, 0, 0), (position + -transform2.right * movementRange) + new Vector3(-1, 0, 0), Color.red);
                 if (hit1.collider != null)
                 {
                     if (hit1.collider.CompareTag("Enemy"))
@@ -62,14 +62,14 @@ namespace Unit
         }
         void GiveDamage()
         {
-            if (Enemy == null)
+            if (enemy == null)
             {
                 Debug.Log(unitName + "Bum2");
             }
             else
             {
-                Enemy.GetComponent<Unit>().healthPoint -= AttackPower;
-                Debug.Log(Enemy.GetComponent<Unit>().unitName + " " + Enemy.GetComponent<Unit>().healthPoint);
+                enemy.GetComponent<Unit>().healthPoint -= attackPower;
+                Debug.Log(enemy.GetComponent<Unit>().unitName + " " + enemy.GetComponent<Unit>().healthPoint);
             }
         }
     
@@ -84,20 +84,20 @@ namespace Unit
                         UnitSignals.Instance.onAttackingAnimation.Invoke(animator);
                         //animator.Play("Attack");
                         yield return new WaitForSeconds(1f);
-                        if (Enemy == null|| !Enemy.gameObject.CompareTag("Enemy"))
+                        if (enemy == null|| !enemy.gameObject.CompareTag("Enemy"))
                         {
                             Debug.Log(unitName + "Bum1");
                             IsAttack = false;
                             break;
                         }
                         GiveDamage();
-                        if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                        if (enemy.GetComponent<Unit>().healthPoint <= 0)
                         {
                             if (gameObject.CompareTag(("Player")))
                             {
-                                CoreGameSignals.Instance.onKillEnemyUnit(Enemy.GetComponent<Unit>().unitRevenue);
+                                CoreGameSignals.Instance.onKillEnemyUnit?.Invoke(enemy.GetComponent<Unit>().unitRevenue);
                             }
-                            Destroy(Enemy.gameObject);
+                            Destroy(enemy.gameObject);
                             IsAttack = false;
                             break;
                         }
@@ -113,16 +113,16 @@ namespace Unit
                         UnitSignals.Instance.onAttackingAnimation.Invoke(animator);
                         //animator.Play("Attack");
                         yield return new WaitForSeconds(1f);
-                        if (Enemy == null|| !Enemy.gameObject.CompareTag("Player"))
+                        if (enemy == null|| !enemy.gameObject.CompareTag("Player"))
                         {
                             Debug.Log(unitName + "Bum1");
                             IsAttack = false;
                             break;
                         }
                         GiveDamage();
-                        if (Enemy.GetComponent<Unit>().healthPoint <= 0)
+                        if (enemy.GetComponent<Unit>().healthPoint <= 0)
                         {
-                            Destroy(Enemy.gameObject);
+                            Destroy(enemy.gameObject);
                             IsAttack = false;
                             break;
                         }
@@ -144,14 +144,14 @@ namespace Unit
                     if (hit.collider.CompareTag("Enemy"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(AttackFunc());
                         IsAttack = true;
                     }
                     if (hit.collider.CompareTag("Castle2"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(CastleAttack());
                         IsAttack = true;
                     }
@@ -176,14 +176,14 @@ namespace Unit
                     if (hit.collider.CompareTag("Player"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(AttackFunc());
                         IsAttack = true;
                     }
                     if (hit.collider.CompareTag("Castle1"))
                     {
                         Canmove = false;
-                        Enemy = hit.transform;
+                        enemy = hit.transform;
                         StartCoroutine(CastleAttack());
                         IsAttack = true;
                     }
@@ -197,7 +197,6 @@ namespace Unit
                 }
             }
         }
-
     
     }
 }
